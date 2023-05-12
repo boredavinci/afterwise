@@ -26,6 +26,6 @@ body {
     rgb(var(--background-start-rgb));
 }
 
-.btn{
+.btn {
   @apply rounded-full;
 }
