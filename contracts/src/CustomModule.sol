@@ -7,6 +7,9 @@ contract CustomModule is Module {
     uint256 public expiration;
     address public beneficiary;
 
+    error OnlySafe();
+    error NotAuthorized();
+
     constructor() {
         _transferOwnership(msg.sender);
     }
@@ -25,6 +28,9 @@ contract CustomModule is Module {
     }
 
     function extendValidity(uint256 by) public {
+        if (msg.sender != target) {
+            revert OnlySafe();
+        }
         expiration = expiration + by;
     }
 
@@ -32,5 +38,7 @@ contract CustomModule is Module {
         if (expiration < block.timestamp && msg.sender == beneficiary) {
             exec(avatar, 0, data, Enum.Operation.Call);
         }
+
+        revert NotAuthorized();
     }
 }
