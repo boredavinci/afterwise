@@ -129,7 +129,9 @@ export default function Onboarding() {
         </div>
         <div className="col-span-4 h-screen">
           <div className="flex flex-col w-full max-w-3xl p-10 mx-auto my-6 transition duration-500 ease-in-out transform bg-white rounded-lg md:mt-0">
-            <h1>Vault Creation Process</h1>
+            <article className="prose">
+              <h1>Vault Creation Process</h1>
+            </article>
             <form className="space-y-6">
               <div className="form-control">
                 <label className="label">

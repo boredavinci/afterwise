@@ -1,46 +1,59 @@
-import Link from "next/link"
+import Link from "next/link";
 
 export default function Onboarding() {
   return (
     <div className=" items-center px-5 py-12 lg:px-20">
-        <div className="flex flex-col w-full max-w-3xl p-10 mx-auto my-6 transition duration-500 ease-in-out transform bg-white rounded-lg md:mt-0">
-                <section className="flex flex-col w-full h-full p-1 overflow-auto">
-                    <header className="flex flex-col items-center justify-center py-12 text-base transition duration-500 ease-in-out transform bg-white border border-dashed rounded-lg text-blueGray-500 focus:border-blue-500 focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2">
-                        <p className="flex flex-wrap justify-center mb-3 text-base leading-7 text-blueGray-500">
-                            <span>Drag and drop your files anywhere or</span></p>
-                        <button className="btn btn-outline"> Upload file</button>
-                        </header>
-                </section>
+      <div className="flex flex-col space-y-8">
+        <div className="flex flex-row justify-center items-center space-x-7">
+          <article className="prose">
+            <h1 className="text-8xl">12 d 12 h 23 d</h1>
+          </article>
+          <button className="btn">Renew</button>
         </div>
-        <div className="flex flex-col w-full max-w-3xl p-10 mx-auto my-6 transition duration-500 ease-in-out transform bg-white rounded-lg md:mt-0">
-                    <form action="#" method="POST" className="space-y-6">
-                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-2">
-                            <div className="form-control">
-                                <label className="label"> 
-                                    <span className="label-text">First name</span>
-                                 </label>
-                                <input type="text" className="input input-bordered" />
-                            </div>
-                            <div className="form-control">
-                                <label className="label"> 
-                                    <span className="label-text">Last name</span>
-                                 </label>
-                                <input type="text" className="input input-bordered" />
-                            </div>
-                        </div>
-                        <div className="form-control">
-                                <label className="label"> 
-                                    <span className="label-text">Input</span>
-                                 </label>
-                                <input type="text" className="input input-bordered" />               
-                        </div>
-                        <div className="form-control">
-                            <button type="submit" className="btn btn-primary">Next</button>
-                        </div>
-                    </form>
-                </div>
+
+        <div className="flex-1 flex flex-row justify-center items-center space-x-7">
+          <div className="card w-96 bg-base-100 shadow-xl">
+            <div className="card-body">
+              <p className="text-slate-400">Amount to be collected</p>
+              <h2 className="card-title text-3xl">$25 000</h2>
+            </div>
+          </div>
+
+          <div className="form-control w-96 max-w-l">
+            <label className="label">
+              <span className="label-text">Beneficiary Address</span>
+            </label>
+            <div className="flex space-x-4">
+              <input
+                type="text"
+                placeholder="Address"
+                className="input input-bordered w-full max-w-xs"
+                value="0x2f5f9a1b383aBdBE29C237EfCeC6Cb659B672d88"
+              />
+              <button className="btn">Update</button>
+            </div>
+          </div>
         </div>
-        
-    
-)
+
+        <table className="table w-full">
+          {/* head */}
+          <thead>
+            <tr>
+              <th>Token</th>
+              <th>Address</th>
+              <th>Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            {/* row 1 */}
+            <tr>
+              <td>USDC</td>
+              <td>0x</td>
+              <td>25000</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
 }
