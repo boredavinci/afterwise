@@ -13,6 +13,27 @@ export default function Dashboard() {
   const { data: signer } = useSigner();
   const [expiration, setExpiration] = useState<Date>();
   const [expiryLength, setExpiryLength] = useState(30);
+  const [modal, setModal] = useState(false);
+  const [safeAddress, setSafeAddress] = useState("");
+  const [copied, setCopied] = useState(false);
+
+  const getSafeAddress = async () => {
+    if(signer) {
+      setSafeAddress(await getUserSafe(signer))
+    }
+  }
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(safeAddress).then(function() {
+      setCopied(true)
+    }, function(err) {
+      console.error('Could not copy text: ', err);
+    });
+  }
+
+  useEffect(() => {
+    getSafeAddress();
+  }, [signer])
 
   const getExpiration = useCallback(async () => {
     if (!signer) {
@@ -205,6 +226,25 @@ export default function Dashboard() {
               </div>
             </div>
           </div>
+
+        <button
+          className="btn w-fit m-auto"
+          onClick={() => setModal(!modal)}
+        >
+          Click to deposit assets
+        </button>
+          {modal && <div className="card w-102 m-auto bg-base-100 shadow-xl">
+            <div className="card-body">
+              <p className="text-slate-400">Your deposit address</p>
+              <img
+                src={`https://chart.googleapis.com/chart?chs=350x350&cht=qr&chl=${safeAddress}&choe=UTF-8`}
+                alt="new"
+              />
+            </div>
+            <p onClick={handleCopy} className="text-white p-2 text-center underline cursor-pointer">{safeAddress}</p>
+            {copied && <p className="text-white py-1 text-center">Copied</p>}
+          </div>
+          }
 
           <table className="table w-full">
             {/* head */}
