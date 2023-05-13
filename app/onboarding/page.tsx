@@ -74,7 +74,7 @@ export default function Onboarding() {
     const tx = await moduleContract.init(
       await safeSdk.getAddress(),
       address,
-      ethers.BigNumber.from(moment().add(expiryLength, "days"))
+      ethers.BigNumber.from(moment().add(expiryLength, "days").unix())
     );
     await tx.wait();
     console.log("Module initialized!");
