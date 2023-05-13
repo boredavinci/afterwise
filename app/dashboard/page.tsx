@@ -273,7 +273,7 @@ export default function Dashboard() {
           className="btn w-fit m-auto"
           onClick={() => setModal(!modal)}
         >
-          Click to deposit assets
+          {modal ? "Hide" : "Click to deposit assets"}
         </button>
           {modal && <div className="card w-102 m-auto bg-base-100 shadow-xl">
             <div className="card-body">
