@@ -14,6 +14,7 @@ import Safe, {
 import { Contract, ContractFactory, Signer, ethers } from "ethers";
 import { getUserSafe, initializeSafeAPI } from "@/services/safe";
 import { useRouter } from "next/navigation";
+import moment from "moment";
 
 export default function Onboarding() {
   const [address, setAddress] = useState("");
@@ -67,11 +68,12 @@ export default function Onboarding() {
 
   const initInheritance = async (safeSdk: Safe, moduleContract: Contract) => {
     // 3. Init module with Safe Address, beneficiary address and expiration
+
     console.log("Initializing module...");
     const tx = await moduleContract.init(
       await safeSdk.getAddress(),
       address,
-      ethers.BigNumber.from(expiryLength * 24 * 60 * 60)
+      ethers.BigNumber.from(moment().add(expiryLength, "days"))
     );
     await tx.wait();
     console.log("Module initialized!");
