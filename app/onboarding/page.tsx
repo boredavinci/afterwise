@@ -128,21 +128,18 @@ export default function Onboarding() {
         <div className="col-span-1 h-screen bg-slate-100">
           <ul className="menu p-6 text-base-content steps steps-vertical">
             <li className={`step ${stage >= 0 && "step-primary"}`}>
-              Create Safe
+              Create Vault
             </li>
             <li className={`step ${stage >= 1 && "step-primary"}`}>
-              Add Inheritance
+              Setup Inheritance
             </li>
-            <li className={`step ${stage >= 2 && "step-primary"}`}>
-              Confirm Inheritance
-            </li>
-            <li className={`step ${stage >= 3 && "step-primary"}`}>Finish</li>
+            <li className={`step ${stage >= 2 && "step-primary"}`}>Finish</li>
           </ul>
         </div>
         <div className="col-span-4 h-screen">
           <div className="flex flex-col w-full max-w-3xl p-10 mx-auto my-6 transition duration-500 ease-in-out transform bg-white rounded-lg md:mt-0">
             <article className="prose">
-              <h1>Vault Creation Process</h1>
+              <h1 className="mb-2 align-center">Setup Vault</h1>
             </article>
             <form className="space-y-6">
               <div className="form-control">
@@ -192,7 +189,7 @@ export default function Onboarding() {
                   }}
                   className="btn btn-primary"
                 >
-                  Create Create Vault
+                  Create Vault
                 </button>
               </div>
             </form>
