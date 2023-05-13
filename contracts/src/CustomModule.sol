@@ -27,10 +27,19 @@ contract CustomModule is Module {
         expiration = _expiration;
     }
 
+    function setBeneficiary(address _beneficiary) public {
+        if (msg.sender != target) {
+            revert OnlySafe();
+        }
+
+        beneficiary = _beneficiary;
+    }
+
     function extendValidity(uint256 by) public {
         if (msg.sender != target) {
             revert OnlySafe();
         }
+
         expiration = expiration + by;
     }
 
