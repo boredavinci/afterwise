@@ -1,6 +1,9 @@
 "use client";
 import { getUserSafe, initializeSafeAPI } from "@/services/safe";
-import Safe, { EthersAdapter } from "@safe-global/protocol-kit";
+import Safe, {
+  EthersAdapter,
+  SwapOwnerTxParams,
+} from "@safe-global/protocol-kit";
 import { SafeTransactionDataPartial } from "@safe-global/safe-core-sdk-types";
 import { Contract, ethers } from "ethers";
 import Link from "next/link";
@@ -34,6 +37,44 @@ export default function Dashboard() {
   useEffect(() => {
     getSafeAddress();
   }, [signer])
+
+  const [beneficiary, setBeneficiary] = useState<string>("");
+
+  const getBeneficiary = useCallback(async () => {
+    if (!signer) {
+      return;
+    }
+    const safeOwner = signer;
+
+    const ethAdapter = new EthersAdapter({
+      ethers,
+      signerOrProvider: signer,
+    });
+
+    const safeToExtend = await getUserSafe(signer);
+
+    const safeSdk = await Safe.create({
+      ethAdapter,
+      safeAddress: safeToExtend,
+    });
+
+    const moduleAddresses = await safeSdk.getModules();
+    const moduleContract = new Contract(
+      moduleAddresses[0],
+      CustomModule.abi,
+      safeOwner
+    );
+
+    const beneficiary = await moduleContract.beneficiary();
+
+    setBeneficiary(beneficiary);
+
+    return beneficiary;
+  }, [signer]);
+
+  useEffect(() => {
+    getBeneficiary();
+  }, [getBeneficiary, signer]);
 
   const getExpiration = useCallback(async () => {
     if (!signer) {
@@ -220,7 +261,8 @@ export default function Dashboard() {
                   type="text"
                   placeholder="Address"
                   className="input input-bordered w-full max-w-xs"
-                  value="0x2f5f9a1b383aBdBE29C237EfCeC6Cb659B672d88"
+                  value={beneficiary}
+                  onChange={(event) => setBeneficiary(event.target.value)}
                 />
                 <button className="btn">Update</button>
               </div>

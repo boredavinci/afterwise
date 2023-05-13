@@ -33,6 +33,7 @@ export default function Onboarding() {
     });
 
     let safeAddress = await getUserSafe(safeOwner);
+
     if (safeAddress) {
       console.log("Safe already deployed!", safeAddress);
       return Safe.create({ ethAdapter, safeAddress });
@@ -73,7 +74,7 @@ export default function Onboarding() {
     const tx = await moduleContract.init(
       await safeSdk.getAddress(),
       address,
-      ethers.BigNumber.from(moment().add(expiryLength, "days"))
+      ethers.BigNumber.from(moment().add(expiryLength, "days").unix())
     );
     await tx.wait();
     console.log("Module initialized!");
@@ -108,8 +109,17 @@ export default function Onboarding() {
   };
 
   const handleSafeDeployment = async () => {
+    const safeService = initializeSafeAPI(signer!);
+
+    const safeSdk = await deploySafe();
+    setStage((stage) => stage + 1);
+    const moduleContract = await deployInheritance(signer!);
+    setStage((stage) => stage + 1);
+    await initInheritance(safeSdk, moduleContract);
+    setStage((stage) => stage + 1);
+    await bindSafeToInheritance(signer!, safeSdk, safeService, moduleContract);
+
     router.push("/dashboard");
-    return;
   };
 
   return (
