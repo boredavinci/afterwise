@@ -1,11 +1,11 @@
 "use client";
 import Navbar from "@/components/Navbar";
-import "@rainbow-me/rainbowkit/styles.css";
-import "./globals.css";
 import { Raleway } from "next/font/google";
 import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { configureChains, goerli, createClient, WagmiConfig } from "wagmi";
 import { publicProvider } from "wagmi/dist/providers/public";
+import "./globals.css";
+import "@rainbow-me/rainbowkit/styles.css";
 
 const { chains, provider } = configureChains([goerli], [publicProvider()]);
 
@@ -35,14 +35,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <WagmiConfig client={wagmiClient}>
-        <RainbowKitProvider chains={chains}>
-          <body className={raleway.className}>
+      <body className={raleway.className}>
+        <WagmiConfig client={wagmiClient}>
+          <RainbowKitProvider chains={chains}>
             <Navbar />
             {children}
-          </body>
-        </RainbowKitProvider>
-      </WagmiConfig>
+          </RainbowKitProvider>
+        </WagmiConfig>
+      </body>
     </html>
   );
 }

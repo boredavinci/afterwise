@@ -2,7 +2,7 @@ import SafeApiKit from "@safe-global/api-kit";
 import Safe, { EthersAdapter } from "@safe-global/protocol-kit";
 import { ethers } from "ethers";
 
-const intializeSafeAPI = (signer: ethers.Signer) => {
+export const initializeSafeAPI = (signer: ethers.Signer) => {
   const ethAdapter = new EthersAdapter({
     ethers,
     signerOrProvider: signer,
@@ -19,7 +19,7 @@ const intializeSafeAPI = (signer: ethers.Signer) => {
 export const getUserSafe = async (signer: ethers.Signer) => {
   const userAddress = await signer.getAddress();
 
-  const safeService = intializeSafeAPI(signer);
+  const safeService = initializeSafeAPI(signer);
 
   const safes = await safeService.getSafesByOwner(userAddress);
 
