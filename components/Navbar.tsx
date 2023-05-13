@@ -29,10 +29,10 @@ export default function Navbar() {
             className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
           >
             <li>
-              <a>Item 1</a>
+              <Link href="/dashboard">Dashboard</Link>
             </li>
             <li>
-              <a>Item 2</a>
+              <Link href="/onboarding">Onboarding</Link>
             </li>
             <li>
               <a>Item 3</a>
@@ -46,10 +46,10 @@ export default function Navbar() {
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
           <li>
-            <a>Item 1</a>
+            <Link href="/dashboard">Dashboard</Link>
           </li>
           <li>
-            <a>Item 2</a>
+            <Link href="/onboarding">Onboarding</Link>
           </li>
           <li>
             <a>Item 3</a>

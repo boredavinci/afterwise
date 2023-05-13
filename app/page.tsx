@@ -1,13 +1,26 @@
 "use client";
 import { useChainId, useSigner } from "wagmi";
-import ethers from "ethers";
+import { ethers } from "ethers";
 import { EthersAdapter, SafeFactory } from "@safe-global/protocol-kit";
 import { getUserSafe } from "@/services/safe";
 import SafeApiKit from "@safe-global/api-kit";
+import { useEffect, useState } from "react";
 
 export default function Home() {
   const chainId = useChainId();
   const { data: signer } = useSigner();
+  const [safeAddress, setSafeAddress] = useState("");
+
+  useEffect(() => {
+    const checkSafeAddress = async () => {
+      const safeAddress = await getUserSafe(signer!);
+      if (safeAddress) {
+        setSafeAddress(safeAddress);
+      }
+    };
+
+    if (signer) checkSafeAddress();
+  }, [signer]);
 
   const createSafeWallet = async () => {
     if (!signer) {
@@ -45,7 +58,7 @@ export default function Home() {
     console.log("Creating and deploying the new safe");
 
     // / wait for the deployement to be completed
-    const newSafeAddress = safeSdk.getAddress();
+    const newSafeAddress = await safeSdk.getAddress();
 
     console.log(newSafeAddress);
   };
@@ -61,6 +74,13 @@ export default function Home() {
           <p className="mb-6 text-5xl">
             Trustless end of life digital legacy management{" "}
           </p>
+          {safeAddress ? (
+            <p>{safeAddress}</p>
+          ) : (
+            <button className="btn" onClick={createSafeWallet}>
+              Create Transaction
+            </button>
+          )}
         </div>
       </div>
     </div>
