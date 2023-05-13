@@ -1,17 +1,12 @@
 "use client";
-import { getUserSafe, initializeSafeAPI } from "@/services/safe";
 import Safe, {
   EthersAdapter,
   SwapOwnerTxParams,
 } from "@safe-global/protocol-kit";
-import { SafeTransactionDataPartial } from "@safe-global/safe-core-sdk-types";
 import { Contract, ethers } from "ethers";
-import Link from "next/link";
-import { useContract, useSigner } from "wagmi";
+import { useSigner } from "wagmi";
 import CustomModule from "@/constants/CustomModule.json";
-import { useCallback, useEffect, useState } from "react";
-import moment from "moment";
-import SafeApiKit from "@safe-global/api-kit";
+import { useState } from "react";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 export default function Dashboard() {
