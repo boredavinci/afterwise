@@ -1,0 +1,5 @@
+@gnosis.pm/=node_modules/@gnosis.pm/
+@openzeppelin/=node_modules/@openzeppelin/
+ds-test/=lib/forge-std/lib/ds-test/src/
+forge-std/=lib/forge-std/src/
+zodiac/=lib/zodiac/contracts/
