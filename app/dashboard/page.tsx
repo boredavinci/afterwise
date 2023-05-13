@@ -283,8 +283,8 @@ export default function Dashboard() {
                 alt="new"
               />
             </div>
-            <p onClick={handleCopy} className="text-white p-2 text-center underline cursor-pointer">{safeAddress}</p>
-            {copied && <p className="text-white py-1 text-center">Copied</p>}
+            <p onClick={handleCopy} className="p-2 text-center underline cursor-pointer">{safeAddress}</p>
+            {copied && <p className="py-1 text-center">Copied</p>}
           </div>
           }
 
