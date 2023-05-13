@@ -52,7 +52,7 @@ export default function Navbar() {
             <Link href="/onboarding">Onboarding</Link>
           </li>
           <li>
-            <a>Item 3</a>
+            <Link href="/claim">Claim</Link>
           </li>
         </ul>
       </div>
