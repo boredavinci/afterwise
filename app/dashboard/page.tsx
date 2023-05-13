@@ -12,6 +12,22 @@ import CustomModule from "@/constants/CustomModule.json";
 import { useCallback, useEffect, useState } from "react";
 import moment from "moment";
 
+// List of tokens for the hackathon UI
+const tokens = [
+  {
+    name: "USDC",
+    address: "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+    amount: 25000,
+    price: 1
+  },
+  {
+    name: "ETH",
+    address: "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+    amount: 2,
+    price: 2000
+  }
+]
+
 export default function Dashboard() {
   const { data: signer } = useSigner();
   const [expiration, setExpiration] = useState<Date>();
@@ -288,22 +304,26 @@ export default function Dashboard() {
           </div>
           }
 
-          <table className="table w-full">
+          <table className="table w-10/12 m-auto">
             {/* head */}
             <thead>
               <tr>
                 <th>Token</th>
                 <th>Address</th>
                 <th>Amount</th>
+                <th>Price</th>
               </tr>
             </thead>
             <tbody>
               {/* row 1 */}
-              <tr>
-                <td>USDC</td>
-                <td>0x</td>
-                <td>25000</td>
-              </tr>
+              {tokens.map((token) => (
+                <tr>
+                  <td>{token.name}</td>
+                  <td>{token.address}</td>
+                  <td>{token.amount}</td>
+                  <td>{token.price}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
