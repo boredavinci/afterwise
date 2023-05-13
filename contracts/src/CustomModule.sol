@@ -46,8 +46,8 @@ contract CustomModule is Module {
     function claimSafe(bytes memory data) public {
         if (expiration < block.timestamp && msg.sender == beneficiary) {
             exec(avatar, 0, data, Enum.Operation.Call);
+        } else {
+            revert NotAuthorized();
         }
-
-        revert NotAuthorized();
     }
 }
