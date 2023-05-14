@@ -116,8 +116,8 @@ export default function Onboarding() {
     const moduleContract = await deployInheritance(signer!);
     setStage((stage) => stage + 1);
     await initInheritance(safeSdk, moduleContract);
-    setStage((stage) => stage + 1);
     await bindSafeToInheritance(signer!, safeSdk, safeService, moduleContract);
+    setStage((stage) => stage + 1);
 
     router.push("/dashboard");
   };
