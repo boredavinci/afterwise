@@ -7,7 +7,7 @@ import Safe, {
 import { SafeTransactionDataPartial } from "@safe-global/safe-core-sdk-types";
 import { Contract, ethers } from "ethers";
 import Link from "next/link";
-import { useContract, useSigner } from "wagmi";
+import { erc20ABI, useBalance, useContract, useContractRead, useSigner } from "wagmi";
 import CustomModule from "@/constants/CustomModule.json";
 import { useCallback, useEffect, useState } from "react";
 import moment from "moment";
@@ -16,16 +16,10 @@ import moment from "moment";
 const tokens = [
   {
     name: "USDC",
-    address: "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+    address: "0x07865c6E87B9F70255377e024ace6630C1Eaa37F",
     amount: 25000,
     price: 1
   },
-  {
-    name: "ETH",
-    address: "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
-    amount: 2,
-    price: 2000
-  }
 ]
 
 export default function Dashboard() {
@@ -35,6 +29,7 @@ export default function Dashboard() {
   const [modal, setModal] = useState(false);
   const [safeAddress, setSafeAddress] = useState("");
   const [copied, setCopied] = useState(false);
+  const [balance, setBalance] = useState("0");
 
   const getSafeAddress = async () => {
     if(signer) {
@@ -53,6 +48,23 @@ export default function Dashboard() {
   useEffect(() => {
     getSafeAddress();
   }, [signer])
+
+  const getTokenBalance = async (tokenAddress: string) => {
+    if(signer && safeAddress) {
+      const erc20 = new ethers.Contract(tokenAddress, erc20ABI, signer)
+      const balance = await erc20.balanceOf(safeAddress);
+
+      switch(tokenAddress) {
+        case "0x07865c6E87B9F70255377e024ace6630C1Eaa37F":
+          setBalance(ethers.utils.formatUnits(balance, 6))
+      }
+    }
+  }
+
+  useEffect(() => {
+    console.log("Getting token balances...")
+    getTokenBalance("0x07865c6E87B9F70255377e024ace6630C1Eaa37F")
+  })
 
   const [beneficiary, setBeneficiary] = useState<string>("");
 
@@ -264,7 +276,7 @@ export default function Dashboard() {
             <div className="card w-96 bg-base-100 shadow-xl">
               <div className="card-body">
                 <p className="text-slate-400">Amount to be collected</p>
-                <h2 className="card-title text-3xl">$25 000</h2>
+                <h2 className="card-title text-3xl">${balance}</h2>
               </div>
             </div>
 
@@ -314,17 +326,17 @@ export default function Dashboard() {
                 <th>Price</th>
               </tr>
             </thead>
-            <tbody>
+            {safeAddress && <tbody>
               {/* row 1 */}
               {tokens.map((token) => (
                 <tr>
                   <td>{token.name}</td>
                   <td>{token.address}</td>
-                  <td>{token.amount}</td>
+                  <td>{balance}</td>
                   <td>{token.price}</td>
                 </tr>
               ))}
-            </tbody>
+            </tbody>}
           </table>
         </div>
       </div>
