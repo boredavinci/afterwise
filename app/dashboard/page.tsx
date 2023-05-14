@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 import { getUserSafe, initializeSafeAPI } from "@/services/safe";
 import Safe, {
@@ -21,22 +22,25 @@ export default function Dashboard() {
   const [copied, setCopied] = useState(false);
 
   const getSafeAddress = async () => {
-    if(signer) {
-      setSafeAddress(await getUserSafe(signer))
+    if (signer) {
+      setSafeAddress(await getUserSafe(signer));
     }
-  }
+  };
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(safeAddress).then(function() {
-      setCopied(true)
-    }, function(err) {
-      console.error('Could not copy text: ', err);
-    });
-  }
+    navigator.clipboard.writeText(safeAddress).then(
+      function () {
+        setCopied(true);
+      },
+      function (err) {
+        console.error("Could not copy text: ", err);
+      }
+    );
+  };
 
   useEffect(() => {
     getSafeAddress();
-  }, [signer])
+  }, [signer]);
 
   const [beneficiary, setBeneficiary] = useState<string>("");
 
@@ -264,29 +268,31 @@ export default function Dashboard() {
                   value={beneficiary}
                   onChange={(event) => setBeneficiary(event.target.value)}
                 />
-                <button className="btn">Update</button>
               </div>
             </div>
           </div>
 
-        <button
-          className="btn w-fit m-auto"
-          onClick={() => setModal(!modal)}
-        >
-          {modal ? "Hide" : "Click to deposit assets"}
-        </button>
-          {modal && <div className="card w-102 m-auto bg-base-100 shadow-xl">
-            <div className="card-body">
-              <p className="text-slate-400">Your deposit address</p>
-              <img
-                src={`https://chart.googleapis.com/chart?chs=350x350&cht=qr&chl=${safeAddress}&choe=UTF-8`}
-                alt="new"
-              />
+          <button className="btn w-fit m-auto" onClick={() => setModal(!modal)}>
+            {modal ? "Hide" : "Click to deposit assets"}
+          </button>
+          {modal && (
+            <div className="card w-102 m-auto bg-base-100 shadow-xl">
+              <div className="card-body">
+                <p className="text-slate-400">Your deposit address</p>
+                <img
+                  src={`https://chart.googleapis.com/chart?chs=350x350&cht=qr&chl=${safeAddress}&choe=UTF-8`}
+                  alt="new"
+                />
+              </div>
+              <p
+                onClick={handleCopy}
+                className="p-2 text-center underline cursor-pointer"
+              >
+                {safeAddress}
+              </p>
+              {copied && <p className="py-1 text-center">Copied</p>}
             </div>
-            <p onClick={handleCopy} className="p-2 text-center underline cursor-pointer">{safeAddress}</p>
-            {copied && <p className="py-1 text-center">Copied</p>}
-          </div>
-          }
+          )}
 
           <table className="table w-full">
             {/* head */}
