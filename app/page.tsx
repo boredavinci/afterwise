@@ -5,11 +5,13 @@ import { EthersAdapter, SafeFactory } from "@safe-global/protocol-kit";
 import { getUserSafe } from "@/services/safe";
 import SafeApiKit from "@safe-global/api-kit";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const chainId = useChainId();
   const { data: signer } = useSigner();
   const [safeAddress, setSafeAddress] = useState("");
+  const router = useRouter();
 
   useEffect(() => {
     const checkSafeAddress = async () => {
@@ -73,10 +75,12 @@ export default function Home() {
         <div className="max-w-2xl">
           <p className="mb-6 text-5xl">Trustless Inheritance Vaults</p>
           {safeAddress ? (
-            <p>{safeAddress}</p>
+            <button className="btn" onClick={() => router.push("/dashboard")}>
+              Dashboard
+            </button>
           ) : (
-            <button className="btn" onClick={createSafeWallet}>
-              Create Transaction
+            <button className="btn" onClick={() => router.push("/onboarding")}>
+              Create Vault
             </button>
           )}
         </div>
