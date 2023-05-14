@@ -266,6 +266,7 @@ export default function Dashboard() {
                   placeholder="Address"
                   className="input input-bordered w-full max-w-xs"
                   value={beneficiary}
+                  readOnly
                   onChange={(event) => setBeneficiary(event.target.value)}
                 />
               </div>
