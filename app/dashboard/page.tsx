@@ -8,7 +8,13 @@ import Safe, {
 import { SafeTransactionDataPartial } from "@safe-global/safe-core-sdk-types";
 import { Contract, ethers } from "ethers";
 import Link from "next/link";
-import { erc20ABI, useBalance, useContract, useContractRead, useSigner } from "wagmi";
+import {
+  erc20ABI,
+  useBalance,
+  useContract,
+  useContractRead,
+  useSigner,
+} from "wagmi";
 import CustomModule from "@/constants/CustomModule.json";
 import { useCallback, useEffect, useState } from "react";
 import moment from "moment";
@@ -19,9 +25,9 @@ const tokens = [
     name: "USDC",
     address: "0x07865c6E87B9F70255377e024ace6630C1Eaa37F",
     amount: 25000,
-    price: 1
+    price: 1,
   },
-]
+];
 
 export default function Dashboard() {
   const { data: signer } = useSigner();
@@ -32,11 +38,11 @@ export default function Dashboard() {
   const [copied, setCopied] = useState(false);
   const [balance, setBalance] = useState("0");
 
-  const getSafeAddress = async () => {
+  const getSafeAddress = useCallback(async () => {
     if (signer) {
       setSafeAddress(await getUserSafe(signer));
     }
-  };
+  }, [signer]);
 
   const handleCopy = () => {
     navigator.clipboard.writeText(safeAddress).then(
@@ -51,24 +57,24 @@ export default function Dashboard() {
 
   useEffect(() => {
     getSafeAddress();
-  }, [signer]);
+  }, [getSafeAddress]);
 
   const getTokenBalance = async (tokenAddress: string) => {
-    if(signer && safeAddress) {
-      const erc20 = new ethers.Contract(tokenAddress, erc20ABI, signer)
+    if (signer && safeAddress) {
+      const erc20 = new ethers.Contract(tokenAddress, erc20ABI, signer);
       const balance = await erc20.balanceOf(safeAddress);
 
-      switch(tokenAddress) {
+      switch (tokenAddress) {
         case "0x07865c6E87B9F70255377e024ace6630C1Eaa37F":
-          setBalance(ethers.utils.formatUnits(balance, 6))
+          setBalance(ethers.utils.formatUnits(balance, 6));
       }
     }
-  }
+  };
 
   useEffect(() => {
-    console.log("Getting token balances...")
-    getTokenBalance("0x07865c6E87B9F70255377e024ace6630C1Eaa37F")
-  })
+    console.log("Getting token balances...");
+    getTokenBalance("0x07865c6E87B9F70255377e024ace6630C1Eaa37F");
+  });
 
   const [beneficiary, setBeneficiary] = useState<string>("");
 
@@ -333,17 +339,19 @@ export default function Dashboard() {
                 <th>Price</th>
               </tr>
             </thead>
-            {safeAddress && <tbody>
-              {/* row 1 */}
-              {tokens.map((token) => (
-                <tr>
-                  <td>{token.name}</td>
-                  <td>{token.address}</td>
-                  <td>{balance}</td>
-                  <td>{token.price}</td>
-                </tr>
-              ))}
-            </tbody>}
+            {safeAddress && (
+              <tbody>
+                {/* row 1 */}
+                {tokens.map((token) => (
+                  <tr key={token.address}>
+                    <td>{token.name}</td>
+                    <td>{token.address}</td>
+                    <td>{balance}</td>
+                    <td>{token.price}</td>
+                  </tr>
+                ))}
+              </tbody>
+            )}
           </table>
         </div>
       </div>

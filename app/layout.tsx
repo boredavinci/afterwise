@@ -3,7 +3,7 @@ import Navbar from "@/components/Navbar";
 import { Raleway } from "next/font/google";
 import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { configureChains, goerli, createClient, WagmiConfig } from "wagmi";
-import { publicProvider } from "wagmi/dist/providers/public";
+import { publicProvider } from "wagmi/providers/public";
 import "./globals.css";
 import "@rainbow-me/rainbowkit/styles.css";
 
@@ -23,10 +23,10 @@ const wagmiClient = createClient({
 
 const raleway = Raleway({ subsets: ["latin"] });
 
-export const metadata = {
-  title: "Afterwise",
-  description: "Trustless end of life digital legacy management",
-};
+// export const metadata = {
+//   title: "Afterwise",
+//   description: "Trustless end of life digital legacy management",
+// };
 
 export default function RootLayout({
   children,
